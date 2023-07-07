@@ -1,8 +1,10 @@
 class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy]
+  before_action :validate_post_owner, only: [:edit, :update, :destroy]
+  before_action :authenticate_user!, only: [:new]
 
   def index
-    @posts = Post.all
+    @posts = Post.includes(:user).all
   end
 
   def new
@@ -11,6 +13,7 @@ class PostsController < ApplicationController
 
   def create
     @post = Post.new(post_params)
+    @post.user = current_user
     if @post.save
       flash[:notice] = 'Post created successfully'
       redirect_to posts_path
@@ -49,4 +52,11 @@ end
 
 def post_params
   params.require(:post).permit(:title, :content, :address)
+end
+
+def validate_post_owner
+  unless @post.user == current_user
+    flash[:notice] = 'the post not belongs to you'
+    redirect_to posts_path
+  end
 end
