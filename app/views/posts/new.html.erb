@@ -7,7 +7,7 @@
   </ul>
 <% end %>
 
-<%form_with model: @post do |form| %>
+<%=form_with model: @post do |form| %>
 <div>
   <%= form.label :title %>
   <%= form.text_field :title %>
@@ -22,3 +22,5 @@
 </div>
 <%= form.submit %>
 <% end %>
+
+<%= link_to 'Index', posts_path %>
