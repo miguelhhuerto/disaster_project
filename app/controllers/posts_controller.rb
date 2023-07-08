@@ -4,7 +4,7 @@ class PostsController < ApplicationController
   before_action :authenticate_user!, only: [:new]
 
   def index
-    @posts = Post.includes(:user).all
+    @posts = Post.includes(:categories, :user).all
   end
 
   def new
@@ -51,7 +51,7 @@ def set_post
 end
 
 def post_params
-  params.require(:post).permit(:title, :content, :address)
+  params.require(:post).permit(:title, :content, :address, category_ids: [])
 end
 
 def validate_post_owner
