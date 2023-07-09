@@ -4,7 +4,7 @@ class PostsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
 
   def index
-    @posts = Post.includes(:categories, :user).page(params[:page]).per(5)
+    @posts = Post.includes(:categories, :user).page(params[:page]).per(5).order(comments_count: :desc)
   end
 
   def new
@@ -56,7 +56,7 @@ end
 
 def validate_post_owner
   unless @post.user == current_user
-    flash[:notice] = 'the post not belongs to you'
+    flash[:notice] = 'The Post Does Not Belong To You'
     redirect_to posts_path
   end
 end
