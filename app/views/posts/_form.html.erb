@@ -30,6 +30,6 @@
   <div>
     <%= form.file_field :image %>
   </div>
-
+  <%= hidden_field_tag :previous_request, request.referer %>
   <%= form.submit %>
 <% end %>
