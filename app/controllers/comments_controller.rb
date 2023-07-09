@@ -60,5 +60,4 @@ class CommentsController < ApplicationController
         redirect_to post_comments_path(@post)
       end
     end
-
   end

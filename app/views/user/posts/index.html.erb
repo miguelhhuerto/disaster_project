@@ -1,15 +1,4 @@
-<h1>Disaster List</h1>
-<% if user_signed_in? %>
-  <h2> Hello <%= current_user.email %> </h2>
-  <%= link_to 'User Posts', user_posts_path if user_signed_in? %>
-  <%= link_to 'User Comments', user_comments_path if user_signed_in? %>
-  <%= link_to 'Sign out', destroy_user_session_path, data: { 'turbo-method': :delete } %>
-<% else %>
-  <%= link_to 'Sign in', new_user_session_path %>
-<% end %>
-
-<% top_posts = @posts.order(comments_count: :desc).limit(3) %>
-
+<h1>User Posts</h1>
 <table>
   <thead>
   <td>title</td>
@@ -21,16 +10,9 @@
   <td>image</td>
   <td>action</td>
   </thead>
-
   <% @posts.each do |post| %>
-    
     <tr>
-      <td>
-      <%if top_posts.include?(post)&&params[:page].to_i==0 %>
-        <span><%="HOT"%></span>
-      <%end%>
-        <%= post.title %>
-      </td>
+      <td><%= post.title %></td>
       <td><%= post.content %></td>
       <td><%= post.address %></td>
       <td><%= post.categories.pluck(:name).join(',') %></td>
@@ -47,7 +29,3 @@
     </tr>
   <% end %>
 </table>
-
-
-<%= paginate @posts %>
-<%= link_to 'New', new_post_path %>
